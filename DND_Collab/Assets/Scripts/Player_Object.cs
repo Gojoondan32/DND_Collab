@@ -14,7 +14,9 @@ public class Player_Object : NetworkBehaviour
     private void OnSubmit(string value) {
         if(!IsOwner) return;
 
-        TextMeshProUGUI text = Instantiate(Player_Manager.Instance.TextPrefab, Vector3.zero, Quaternion.identity, Player_Manager.Instance.TextParent);
-        text.text = value;
+        TextMeshProUGUI text = Instantiate(Player_Manager.Instance.TextPrefab, Vector3.zero, Quaternion.identity);
+        text.text = value + " : " + NetworkManager.LocalClientId;
+        text.GetComponent<NetworkObject>().Spawn(true);
+        text.transform.SetParent(Player_Manager.Instance.TextParent); // Set the parent after is has been spawned on the network to ensure the position is correct
     }
 }
